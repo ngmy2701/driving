@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveSmart — Learn to Drive with a Pass Guarantee</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #1E40AF;
+    --primary-dark: #1E3A8A;
+    --primary-light: #3B82F6;
+    --accent: #F59E0B;
+    --accent-dark: #D97706;
+    --success: #059669;
+    --success-light: #D1FAE5;
+    --danger: #DC2626;
+    --text: #0F172A;
+    --text-mid: #475569;
+    --text-light: #94A3B8;
+    --bg: #FFFFFF;
+    --bg-soft: #F8FAFC;
+    --bg-mid: #F1F5F9;
+    --border: #E2E8F0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-logo svg { width: 28px; height: 28px; }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.92rem;
+    color: var(--text-mid);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--primary); }
+  .nav-cta {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.65rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    padding: 8rem 5% 5rem;
+    background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--success-light);
+    color: var(--success);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .highlight {
+    color: var(--primary);
+    position: relative;
+  }
+  .hero h1 .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: var(--accent);
+    opacity: 0.3;
+    z-index: -1;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-mid);
+    margin-bottom: 2rem;
+    max-width: 520px;
+  }
+  .price-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+  }
+  .price-was {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+  }
+  .price-now {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-dark);
+  }
+  .price-label {
+    font-size: 0.8rem;
+    color: var(--text-mid);
+    display: block;
+  }
+  .save-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+  .btn-outline {
+    background: white;
+    color: var(--text);
+    border: 2px solid var(--border);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+  .trust-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+  }
+  .trust-item svg {
+    width: 18px;
+    height: 18px;
+    color: var(--success);
+  }
+
+  /* HERO FORM */
+  .hero-form {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08), 0 0 0 1px var(--border);
+  }
+  .form-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .form-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .form-header p {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-family: inherit;
+    background: var(--bg-soft);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .form-submit {
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--accent-dark); }
+  .form-note {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-top: 0.8rem;
+  }
+
+  /* SECTIONS */
+  section { padding: 5rem 5%; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 3rem; }
+  .section-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+  .section-sub {
+    font-size: 1.05rem;
+    color: var(--text-mid);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* COMPARISON */
+  .comparison { background: var(--bg-soft); }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .compare-card {
+    background: white;
+    border-radius: 14px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+  }
+  .compare-card.us {
+    border: 2px solid var(--primary);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(30, 64, 175, 0.12);
+  }
+  .compare-card.us::before {
+    content: 'BEST CHOICE';
+    position: absolute;
+    top: -12px;
+    right: 1.5rem;
+    background: var(--accent);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.8rem;
+    border-radius: 100px;
+  }
+  .compare-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .compare-card .compare-price {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+  }
+  .compare-card.them .compare-price { color: var(--text-light); }
+  .compare-card ul {
+    list-style: none;
+  }
+  .compare-card ul li {
+    display: flex;
+    gap: 0.7rem;
+    padding: 0.6rem 0;
+    font-size: 0.92rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .compare-card ul li svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .check { color: var(--success); }
+  .cross { color: var(--danger); }
+
+  /* HOW IT WORKS */
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    position: relative;
+  }
+  .step-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.75rem 1.5rem;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  }
+  .step-number {
+    width: 36px;
+    height: 36px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+  .step-card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .step-card p {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+  .step-amount {
+    display: inline-block;
+    background: var(--success-light);
+    color: var(--success);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    margin-top: 0.75rem;
+  }
+
+  /* GUARANTEE */
+  .guarantee {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+  }
+  .guarantee .section-title { color: white; }
+  .guarantee .section-sub { color: rgba(255,255,255,0.8); }
+  .guarantee-box {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 720px;
+    margin: 2rem auto 0;
+    backdrop-filter: blur(8px);
+  }
+  .guarantee-shield {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1rem;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .guarantee-shield svg { width: 36px; height: 36px; color: white; }
+  .guarantee-box h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .guarantee-box p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+  }
+  .guarantee-box p strong { color: var(--accent); font-weight: 700; }
+
+  /* BENEFITS */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .benefit {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+  }
+  .benefit-icon {
+    width: 44px;
+    height: 44px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--primary);
+    border: 1px solid var(--border);
+  }
+  .benefit-icon svg { width: 22px; height: 22px; }
+  .benefit h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .benefit p {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* FUTURE EARNINGS */
+  .earnings {
+    background: var(--bg-soft);
+  }
+  .earnings-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .earnings-list {
+    list-style: none;
+    margin-top: 1.5rem;
+  }
+  .earnings-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .earnings-list li:last-child { border-bottom: none; }
+  .job-name {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .job-salary {
+    font-weight: 800;
+    color: var(--success);
+    font-size: 1.1rem;
+  }
+  .earnings-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .earnings-big {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--success);
+    line-height: 1;
+    margin: 1rem 0 0.5rem;
+  }
+  .earnings-big span { font-size: 1.2rem; color: var(--text-mid); font-weight: 500; }
+
+  /* REFERRAL */
+  .referral-banner {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: white;
+    padding: 2.5rem 5%;
+    text-align: center;
+    margin: 0;
+  }
+  .referral-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .referral-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .referral-icon svg { width: 28px; height: 28px; color: white; }
+  .referral-text h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+  }
+  .referral-text p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+
+  /* FAQ */
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+  }
+  .faq-question {
+    padding: 1.2rem 1.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: none;
+    width: 100%;
+    text-align: left;
+    color: var(--text);
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+  .faq-question:hover { background: var(--bg-soft); }
+  .faq-question::after {
+    content: '+';
+    font-size: 1.5rem;
+    color: var(--primary);
+    font-weight: 300;
+    transition: transform 0.2s;
+  }
+  .faq-item.open .faq-question::after {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 1.5rem;
+    color: var(--text-mid);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+    padding: 0 1.5rem 1.2rem;
+  }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--primary-dark);
+    color: white;
+    text-align: center;
+  }
+  .final-cta h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: white;
+  }
+  .final-cta p {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 2rem;
+  }
+  .final-cta .btn-primary {
+    background: var(--accent);
+    font-size: 1.1rem;
+    padding: 1.1rem 2.5rem;
+  }
+  .final-cta .btn-primary:hover { background: var(--accent-dark); }
+
+  /* FOOTER */
+  footer {
+    background: #0F172A;
+    color: rgba(255,255,255,0.6);
+    padding: 3rem 5% 1.5rem;
+  }
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-brand {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.75rem;
+  }
+  .footer-tagline {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.5);
+    max-width: 320px;
+    line-height: 1.6;
+  }
+  .footer-col h4 {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.4rem; font-size: 0.88rem; }
+  .footer-col a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 1.5rem auto 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* SUCCESS MESSAGE */
+  .success-message {
+    display: none;
+    background: var(--success-light);
+    border: 1px solid var(--success);
+    color: var(--success);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+  }
+  .success-message.show { display: block; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .how-steps { grid-template-columns: 1fr 1fr; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .earnings-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 500px) {
+    .how-steps { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="10" width="22" height="10" rx="2" fill="#1E40AF"/>
+      <circle cx="8" cy="22" r="2.5" fill="#0F172A"/>
+      <circle cx="20" cy="22" r="2.5" fill="#0F172A"/>
+      <path d="M7 10L9 6h10l2 4" stroke="#1E40AF" stroke-width="1.5" fill="none"/>
+    </svg>
+    DriveSmart
+  </div>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#guarantee">Guarantee</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('signupForm').scrollIntoView({behavior:'smooth'})">Get Started</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Pass guarantee • Limited spots</div>
+      <h1>Get your <span class="highlight">driver's license</span> with a real pass guarantee</h1>
+      <p class="hero-sub">Personal, one-on-one driving instruction with unlimited retakes until you pass the DMV exam. Door-to-door pickup included.</p>
+
+      <div class="price-box">
+        <div>
+          <span class="price-label">Exclusive offer:</span>
+          <div style="display:flex;align-items:baseline;gap:0.6rem;">
+            <span class="price-was">$450</span>
+            <span class="price-now">$350</span>
+            <span class="save-badge">Save $100</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('signupForm').scrollIntoView({behavior:'smooth'})">
+          Book My First Lesson
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See How It Works</button>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+          Pickup & drop-off
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+          Insurance included
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+          3 attempts
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="hero-form" id="signupForm">
+      <div class="form-header">
+        <h3>Reserve Your Spot</h3>
+        <p>Fill this out and I'll call you within 24 hours</p>
+      </div>
+      <form id="leadForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" required placeholder="John Smith">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="you@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address">Pickup Address / City</label>
+          <input type="text" id="address" name="address" required placeholder="Where should I pick you up?">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="experience">Driving Experience</label>
+            <select id="experience" name="experience" required>
+              <option value="">Select...</option>
+              <option>Complete beginner</option>
+              <option>Some experience</option>
+              <option>Need practice for test</option>
+              <option>Failed before, need retake help</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="timing">Start Time</label>
+            <select id="timing" name="timing" required>
+              <option value="">Select...</option>
+              <option>This week</option>
+              <option>Next week</option>
+              <option>Within a month</option>
+              <option>Just exploring</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="notes">Notes (optional)</label>
+          <textarea id="notes" name="notes" rows="2" placeholder="Anything I should know?"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Claim My $350 Offer →</button>
+        <p class="form-note">No upfront payment required. Pay per session.</p>
+        <div class="success-message" id="successMsg">
+          ✓ Got it! I'll reach out within 24 hours to schedule your first lesson.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- REFERRAL BANNER -->
+<div class="referral-banner">
+  <div class="referral-inner">
+    <div class="referral-icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="referral-text">
+      <h3>Earn $25 for every friend you refer</h3>
+      <p>Know someone who needs to learn? Send them my way and I'll pay you $25 cash for every successful signup.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Simple Payment Plan</div>
+      <h2 class="section-title">Pay as you go — no upfront cost</h2>
+      <p class="section-sub">Total package is just $350 (first-try pass) or $400 (3 attempts retake). Paid over the course of your lessons.</p>
+    </div>
+    <div class="how-steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>First Lesson</h3>
+        <p>We meet, I teach you the fundamentals of safe driving. You start building real skill behind the wheel.</p>
+        <span class="step-amount">Pay $100</span>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Second Lesson</h3>
+        <p>We go deeper — parking, highway, difficult maneuvers. By the end you'll feel confident.</p>
+        <span class="step-amount">Pay $100</span>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Third Lesson (Revision)</h3>
+        <p>We revise everything from lessons 1 and 2, polish any weak spots, and simulate the real DMV test so you walk in feeling fully confident.</p>
+        <span class="step-amount">Revision session</span>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h3>DMV Test Day</h3>
+        <p>I pick you up, bring my vehicle with full registration & insurance, and present my documents to the examiner so you can take the test.</p>
+        <span class="step-amount">Test day</span>
+      </div>
+      <div class="step-card">
+        <div class="step-number">5</div>
+        <h3>Pass & Final Payment</h3>
+        <p>Once you pass and have your license in hand, you pay the final amount. That's it.</p>
+        <span class="step-amount">Pay $150 (first try) or $200</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="guarantee" id="guarantee">
+  <div class="section-inner">
+    <div class="section-eyebrow" style="color: rgba(255,255,255,0.7);">The Guarantee</div>
+    <h2 class="section-title">3 retake attempts included.</h2>
+    <p class="section-sub">No hidden fees. No "pay extra" for retakes. No broken promises.</p>
+
+    <div class="guarantee-box">
+      <div class="guarantee-shield">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l9 4v6c0 5.5-3.8 10.7-9 12-5.2-1.3-9-6.5-9-12V6l9-4z" stroke="white" stroke-width="2" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3>Pass first try? You pay just <strong>$350</strong>.</h3>
+      <p>Fail and need more attempts? You pay <strong>$400 total</strong> — and I'll take you back to the DMV for up to <strong>3 attempts</strong>. I cover fuel, car maintenance, and the vehicle paperwork for each attempt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section>
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Why Learn With Me</div>
+      <h2 class="section-title">Everything you need to pass, included</h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Door-to-door pickup</h3>
+        <p>I come to your address and drop you back home. Even if you're far — no extra charge, no excuses.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Thorough, patient teaching</h3>
+        <p>I teach you driving safely and thoroughly — not the rushed cookie-cutter method schools use. My goal is your license.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 8V6a5 5 0 0110 0v2M12 14v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Vehicle, insurance & fuel</h3>
+        <p>I cover all costs of the car: fuel, maintenance, depreciation, and insurance during every lesson and every DMV attempt.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Full DMV support</h3>
+        <p>I come to the DMV with you and show the examiner my vehicle registration and insurance so you can take the test legally.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Flexible scheduling</h3>
+        <p>Lessons at times that work for your schedule. Evenings and weekends available.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Pay-as-you-go</h3>
+        <p>No upfront lump sum. $100 after lesson one, $100 after lesson two, and the balance only after you pass.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="comparison" id="compare">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Compare</div>
+      <h2 class="section-title">Driving school vs. me</h2>
+      <p class="section-sub">A head-to-head of what you actually get for your money.</p>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card them">
+        <h3>Driving School</h3>
+        <div class="compare-price">$700+</div>
+        <ul>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="cross"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/></svg>
+            Only <strong>one</strong> DMV attempt included
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="cross"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/></svg>
+            Extra fees for retakes if you fail
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="cross"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/></svg>
+            No pass guarantee
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="cross"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/></svg>
+            Large classes, rushed lessons
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="cross"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/></svg>
+            No pickup or drop-off service
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="cross"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/></svg>
+            Full upfront payment required
+          </li>
+        </ul>
+      </div>
+      <div class="compare-card us">
+        <h3>DriveSmart (Me)</h3>
+        <div class="compare-price">$350 – $400</div>
+        <ul>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="check"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+            <strong>3 DMV attempts</strong> included
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="check"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+            Pass guaranteed — or I keep going
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="check"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+            One-on-one, personal teaching
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="check"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+            Door-to-door pickup, no matter how far
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="check"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+            Pay as you go — nothing upfront
+          </li>
+          <li><svg viewBox="0 0 20 20" fill="currentColor" class="check"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
+            Fuel, insurance, vehicle — all covered by me
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EARNINGS -->
+<section class="earnings">
+  <div class="section-inner">
+    <div class="earnings-grid">
+      <div>
+        <div class="section-eyebrow">Your Future</div>
+        <h2 class="section-title">A license opens doors (and paychecks)</h2>
+        <p style="color:var(--text-mid); font-size:1rem; margin-top:1rem;">Once you have your license, you can unlock well-paying jobs that people without a car simply can't access. Delivery driving, rideshare, restaurant work, retail — all become possible.</p>
+        <ul class="earnings-list">
+          <li>
+            <span class="job-name">Food delivery (DoorDash / UberEats)</span>
+            <span class="job-salary">$3,000 – $5,000/mo</span>
+          </li>
+          <li>
+            <span class="job-name">Restaurant server / waiter</span>
+            <span class="job-salary">$3,000 – $4,500/mo</span>
+          </li>
+          <li>
+            <span class="job-name">Cashier / retail roles</span>
+            <span class="job-salary">$2,500 – $3,500/mo</span>
+          </li>
+          <li>
+            <span class="job-name">Rideshare driver</span>
+            <span class="job-salary">$3,500 – $5,500/mo</span>
+          </li>
+        </ul>
+      </div>
+      <div class="earnings-card">
+        <div style="font-size:0.85rem; color:var(--text-mid); text-transform:uppercase; letter-spacing:0.1em; font-weight:700;">Potential Monthly Income</div>
+        <div class="earnings-big">$3–5K<span>/month</span></div>
+        <p style="color:var(--text-mid); font-size:0.9rem; line-height:1.6;">Enough to cover tuition, rent, and living expenses — and still save. A one-time $350 investment in learning to drive pays itself back in weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Questions</div>
+      <h2 class="section-title">Frequently asked</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">What if I fail the first driving exam?</button>
+        <div class="faq-answer">No problem. I'll take you back to the DMV for up to 3 attempts. The total price is capped at $400 — never more.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">What happens if I cause an accident during a lesson?</button>
+        <div class="faq-answer">I've paid in advance for fuel, maintenance, and the car's depreciation during teaching. However, if an accident occurs and the other vehicle owner requires damage compensation or an insurance claim, the student is responsible for paying out-of-pocket since it's caused by their driving. This is standard across all independent driving instructors.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Do you really come to my address?</button>
+        <div class="faq-answer">Yes. I pick you up at your home and drop you back home after every lesson and after the DMV exam, even if you live far. No extra charge for travel.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How many lessons will I need?</button>
+        <div class="faq-answer">The standard plan includes three lessons: two core teaching sessions plus a third revision lesson to recap everything and simulate the DMV test. This makes sure you walk in confident and ready. If you need more sessions we can always add them, but most students are fully prepared after the three-lesson plan.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How does the referral bonus work?</button>
+        <div class="faq-answer">Send your friends my way. Once they sign up and pay for their first lesson, I'll send you $25 cash (Venmo, Zelle, or cash — your choice). No limit on how many friends you can refer.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">When do I pay?</button>
+        <div class="faq-answer">You pay $100 after your first lesson, $100 after your second lesson, and the balance ($150 if first-try pass, or $200 if multiple attempts) only after you've passed the DMV and received your license. Nothing upfront.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="section-inner">
+    <h2>Don't miss this opportunity.</h2>
+    <p>Spots are limited each month. Lock in your $350 rate today.</p>
+    <button class="btn-primary" onclick="document.getElementById('signupForm').scrollIntoView({behavior:'smooth'})">Reserve My Spot →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">DriveSmart</div>
+      <p class="footer-tagline">Personal driving instruction with a real pass guarantee. Teaching safely, thoroughly, and with full door-to-door service.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#compare">Compare</a></li>
+        <li><a href="#guarantee">Pass Guarantee</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#signupForm">Book a Lesson</a></li>
+        <li><a href="#">Refer a Friend — Earn $25</a></li>
+        <li><a href="#">Message Me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 DriveSmart. Teaching drivers, building futures.</div>
+</footer>
+
+<script>
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.parentElement.classList.toggle('open');
+    });
+  });
+
+  // Form handler
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const msg = document.getElementById('successMsg');
+    msg.classList.add('show');
+    form.querySelector('.form-submit').disabled = true;
+    form.querySelector('.form-submit').textContent = '✓ Submitted';
+    setTimeout(() => {
+      form.reset();
+      msg.classList.remove('show');
+      form.querySelector('.form-submit').disabled = false;
+      form.querySelector('.form-submit').textContent = 'Claim My $350 Offer →';
+    }, 5000);
+  }
+</script>
+
+</body>
+</html>
